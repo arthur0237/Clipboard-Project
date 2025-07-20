@@ -1,0 +1,23 @@
+[Python Script] 
+   ↓ (sends query & starts polling)
+
+[Express Server (Node.js)]
+
+   ← Passport.js + Google Auth
+
+   → Stores user session info
+
+   → Generates JWT after auth
+
+   ← Responds to polling with status code 200 - "That is authentication is successfull". -> this response is  acknowledged by Python script.
+
+   <- Now the main server will store the JWT into Redis as key-value pair where key will be "queryId". --- Keep in mind that Redis will be handeled by the main server, not by the python script.
+
+   -> Now we will hit the server via web route /show-email along with queryId ---> and than server will verify the user by checking the queryId in the Redis and if server finds any jwt token stored against the same queryId than server will fetch that jwt token and it will extract the email of user from the token and will return to the user as response to the route /show-email.
+
+
+***This is what I was doing earlier. 
+
+[Python Script]
+   → Receives JWT → extracts email
+   → (Optional) display email via web route

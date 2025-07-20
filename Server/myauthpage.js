@@ -26,24 +26,28 @@
 
 // Otherwise, it redirects to /
 
+// **Imp** - What does Passport.js actually handles is that ---> It handles all the work required to be done in order to use Google Oauth ---> It handles all the get and post requests that are required to be done in order to use Google Oauth for authentication. ----> In simple words all that authentication code and token exchnage thing.   It also manages the session handling for us, so we don't have to write that code ourselves.
+
+// dotenv is a small Node.js package that loads environment variables from a .env file into process.env.
 
 require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
-const session = require('express-session');
+//   ---->> ????
+const session = require('express-session');   
 const { Server } = require('http')
 require('./auth_server'); // Import the authentication setup
 
 const app = express();
 
-// Session setup
+// Session setup  ---->>> ?????
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
 }));
 
-// Passport setup
+// Passport setup ---->> ????        
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -58,7 +62,7 @@ app.get('/auth/google',
     prompt: 'consent select_account'
   })
 );
-
+ 
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
