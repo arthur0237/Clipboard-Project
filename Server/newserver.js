@@ -48,7 +48,7 @@ passport.deserializeUser((user, done) => done(null, user));
 passport.use(new GoogleStrategy({
   clientID: '26764968083-pfr6tbetve4kf13e6214pl15jslc49mf.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: 'http://localhost:5000/auth/google/callback'
+  callbackURL: 'http://localhost:3003/auth/google/callback'
 }, (accessToken, refreshToken, profile, done) => {
   done(null, profile);
 }));
@@ -82,16 +82,21 @@ app.get('/auth/google', (req, res, next) => {
   // To understand the next line :- 
 // A session is data stored on the server, typically associated with a unique session ID.
 // The session ID is often stored in a cookie on the client, so the server can retrieve the corresponding session data.
-
-  req.session.queryId = queryId;  // Store for later in callback
-  console.log("Stored queryId in session:", req.session.queryId);
-req.session.save(err => {
-  if (err) {
-      console.error('Failed to save session before redirect:', err);
-      return res.status(500).send('Internal Server Error');
-    }
-  passport.authenticate('google', { scope: ['email', 'profile'] })(req, res, next);
-});
+  res.cookie('query_id', queryId, { httpOnly: true });
+  console.log(res.cookie);
+  // req.session.queryId = queryId;  // Store for later in callback
+  // console.log("Stored queryId in session:", req.session.queryId);
+// req.session.save(err => {
+//   if (err) {
+//       console.error('Failed to save session before redirect:', err);
+//       return res.status(500).send('Internal Server Error');
+//     }
+// });
+    
+  passport.authenticate('google', { 
+    scope: ['email', 'profile'],
+    state: queryId 
+  })(req, res, next);
 });
 
 
@@ -100,25 +105,23 @@ req.session.save(err => {
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   async (req, res) => {
-    const email = req.user.email;
-    console.log("Session in callback:", req.session);
-    const queryId = req.session.queryId;
-
+    const email = req.user._json?.email;
+    const queryId = req.query.state;
     if (!queryId) {
         return res.status(400).send('Query ID missing in session');
     }
 
     // Generate JWT token
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    const token = jwt.sign({ email:email }, process.env.JWT_SECRET, { expiresIn: '1h' });
     // Store the same token in Redis
+    console.log(token);
     await redisClient.set(queryId, token, { EX: 3600 });
 
     // Also update in-memory store used by the /poll-auth endpoint
     queryStore.set(queryId, { authenticated: true, token });
 
     // Set queryId in cookie to use later in /show-email
-    res.cookie('query_id', queryId, { httpOnly: true });
+    // res.cookie('query_id', queryId, { httpOnly: true });
 
     // Redirect user to the result page
     res.redirect('/show-email');
@@ -156,12 +159,11 @@ app.get('/poll-auth', (req, res) => {
 
 // 5. Route to Decode and Display Email
 app.get('/show-email', async (req, res) => {
-  // const queryId = req.cookies.queryId;
-  const queryId = req.cookies.query_id;
+  const queryId = req.query.queryid;
   if (!queryId) return res.status(401).send('Query ID missing');
 
   const token = await redisClient.get(queryId);
-  
+  console.log(token);
   if (!token) return res.status(401).send('Token not found');
 
   try {
@@ -174,4 +176,4 @@ app.get('/show-email', async (req, res) => {
 
 
 
-app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));
+app.listen(3003, () => console.log("✅ Server running on http://localhost:5000"));

@@ -4,7 +4,7 @@ import requests
 import time
 
 query_id = "1234"  # Any unique string or UUID
-server_url = "http://localhost:5000"
+server_url = "http://localhost:3003"
 
 # Step 1: Send query to backend
 requests.post(f"{server_url}/register-query", json={"queryId": query_id})
