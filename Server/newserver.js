@@ -2,10 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
-const passport = require('passport');
 
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const session = require('cookie-session');
+// In this part of code we are telling Passport - "Use the Google strategy for authentication"   ---> GoogleStrategy is provided by the passport-google-oauth20 library.
 
 const jwt = require('jsonwebtoken');
 // ????
@@ -14,8 +14,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
-
-// const { v4: uuidv4 } = require('uuid');
 
 const redisClient = require('../redisclient');
 
@@ -39,18 +37,46 @@ app.use(session({
     maxAge: 1000 * 60 * 60 // 1 hour
   }
 }));
+
+// ????
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => done(null, user));
+// These functions are required for session handling, functions that allow Passport to :-
+// 1. Remember who is logged in 
+// 2. Retrieve user information from the session when needed. 
+
+// Now:-
+// Think of serializeUser() as packing the user info into a suitcase (i.e., the session cookie).
+
+// When the user successfully logs in, Passport calls this function.
+// And user the user profile data that it wish to store in the session.
+
+passport.serializeUser((user, done) => done(null, user)
+// we can also have :- 
+// done(null, user.id); // Just save the user’s ID (lighter)
+);
+
+// Think of deserializeUser() as unpacking the user from the suitcase (i.e., retrieving from session cookie).
+// For every new request (e.g., when hitting /profile), Passport calls this.
+// It fetches the session data and attaches req.user so your routes can use it.
 passport.deserializeUser((user, done) => done(null, user));
 
 passport.use(new GoogleStrategy({
   clientID: '26764968083-pfr6tbetve4kf13e6214pl15jslc49mf.apps.googleusercontent.com',
   clientSecret: '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',
   callbackURL: 'http://localhost:5000/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
+},
+// second parameter 
+// This function is called after Google authenticates the user and sends back data.
+
+(accessToken, refreshToken, profile, done) => {
+  // We need to have the values of parameter of this function if we wish to save all the details of user to our own database.
   done(null, profile);
+  // done	--->> A callback function used by Passport to finish the login process
+  // done() ->> tells the Passport that I have finished processing the user, and here is the user profile data.
+  // null means no error occurred.
+  // profile is passed into Passport and eventually becomes req.user.
 }));
 
 
@@ -60,14 +86,11 @@ passport.use(new GoogleStrategy({
 app.post('/register-query', (req, res) => {
   const { queryId } = req.body; 
   //  In an Express.js server, req.body contains the data sent by the client (e.g., frontend, Python script) in the body of a POST request.
-
   if (!queryId) {
     return res.status(400).json({ error: 'Query ID is required' });
   }
-
   queryStore.set(queryId, { authenticated: false, token: null });
   // This line stores the queryId in an in-memory JavaScript Map called queryStore.
-
   res.sendStatus(200);
 });
 
@@ -82,7 +105,6 @@ app.get('/auth/google', (req, res, next) => {
   // To understand the next line :- 
 // A session is data stored on the server, typically associated with a unique session ID.
 // The session ID is often stored in a cookie on the client, so the server can retrieve the corresponding session data.
-
   req.session.queryId = queryId;  // Store for later in callback
   console.log("Stored queryId in session:", req.session.queryId);
 req.session.save(err => {
@@ -90,7 +112,10 @@ req.session.save(err => {
       console.error('Failed to save session before redirect:', err);
       return res.status(500).send('Internal Server Error');
     }
-  passport.authenticate('google', { scope: ['email', 'profile'] })(req, res, next);
+  passport.authenticate('google', { 
+    scope: ['email', 'profile'],
+    state : queryId 
+  })(req, res, next);
 });
 });
 
@@ -100,16 +125,21 @@ req.session.save(err => {
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   async (req, res) => {
-    const email = req.user.email;
+    // const email = req.user.email;
+    const email = req.user._json?.email;
+      
+    // just to debug 
     console.log("Session in callback:", req.session);
-    const queryId = req.session.queryId;
+
+    // const queryId = req.session.queryId;
+    const queryId = req.query.state; // Get queryId from state parameter
 
     if (!queryId) {
         return res.status(400).send('Query ID missing in session');
     }
 
     // Generate JWT token
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ email:email}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Store the same token in Redis
     await redisClient.set(queryId, token, { EX: 3600 });
@@ -144,11 +174,17 @@ app.get('/poll-auth', (req, res) => {
 //   authenticated: true or false,
 //   token: 'JWT_TOKEN_STRING'
 //   }
+
+// Try to access the token from Redis ????? 
+// ***********What is the use of async and await here ?????***********
+
   const entry = queryStore.get(queryId);
+//  ----> just to debug
+  // console.log(entry);   
 
   // in conditional bracket whether the entry exist or not as well whether the user is authenticated or not is being checked.
   if (entry?.authenticated) {
-    return res.status(200);
+    return res.json({"token": entry.token });
   }
   res.sendStatus(204); // not yet authenticated
 });
@@ -156,8 +192,9 @@ app.get('/poll-auth', (req, res) => {
 
 // 5. Route to Decode and Display Email
 app.get('/show-email', async (req, res) => {
-  // const queryId = req.cookies.queryId;
-  const queryId = req.cookies.query_id;
+  // http://localhost:5000/show-email?queryid=1234   
+  const queryId = req.query.queryid;
+
   if (!queryId) return res.status(401).send('Query ID missing');
 
   const token = await redisClient.get(queryId);

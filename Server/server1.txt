@@ -1,0 +1,55 @@
+ // Now we are going to design the server.
+// -->                Server Architecture 
+        
+// Flow :- Content of clipboard --> Main server --> AWS Cloud Storage  --- this is when we are pasting something to clipboard.
+// Above flow becomes opposite when the user tries to copy something from the clipboard.
+
+// Our initial plan was to have our own database that we will be managing using by the main server. ->>> But than we chnaged our mind and shifted to AWS Cloud Storage. 
+// ->>> WHY?? 
+// --->>> In order to reduce the latenncy between the responses of two different users. ---->>>> The server will be busy in managing only one user at a time and it will engaged with one user until the user is done with the clipboard operation.
+
+// Few other reasons for shifting to AWS Cloud Storage are:- 
+// 1. DEPLOYMENT -- DNS -- HOW ??? ---> 
+// 2. SECURITY -- OF THE DATA -- HOW ??? --->
+   
+// ->>> If we talk about the storage that we need ->> we won't need a lot of storage becoz we are going to set the expiry time for the data from the AWS Cloud Storage. 
+
+// ---->>>>> What was our initial plan to implement the server was that ->>>> We will have a main server and we will have some more number of servers which will be connected to the main server.
+//    And than the main server will be distribute the request to all the servers (this is action is taken in order to reduce the load on the main server).  ----->>> Further the all the severs will be connected to the AWS Cloud Storage. Distribution of the requests by the main server to the all the servers will be done using loadbalancer. Loadbalancer will be impplemented by the main srever itself.
+
+// But we didn't implemented in this way ->>>> Why ???? ->>>>   
+
+
+
+
+
+
+// Tech Stack & Libraries
+// Node.js   Express.js    Passport.js    passport-google-oauth20   dotenv  express-session
+
+
+
+Google Auth:-
+
+// 1️⃣	User opens http://localhost:3000
+// 2️⃣	Clicks “Login with Google” (goes to /auth/google)
+// 3️⃣	Passport redirects to Google’s consent screen
+// 4️⃣	User logs in & gives permission
+// 5️⃣	Google sends user back to your app at /auth/google/callback
+// 6️⃣	Passport handles the callback and creates session
+// 7️⃣	User is redirected to /profile and sees their info
+// 8️⃣	User can click Logout to clear session
+
+
+// 🔐 How User Login Works Internally
+// Passport stores the user info inside the session (cookie-based)
+
+// Each time the user goes to /profile, Passport checks the session
+
+// If the session exists, the user is authenticated
+
+// Otherwise, it redirects to /
+
+// **Imp** - What does Passport.js actually handles is that ---> It handles all the work required to be done in order to use Google Oauth ---> It handles all the get and post requests that are required to be done in order to use Google Oauth for authentication. ----> In simple words all that authentication code and token exchnage thing.   It also manages the session handling for us, so we don't have to write that code ourselves.
+
+// dotenv is a small Node.js package that loads environment variables from a .env file into process.env.
