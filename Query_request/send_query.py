@@ -7,7 +7,7 @@ import webbrowser
 import os
 
 query_id = "1234"  # Any unique string or UUID
-server_url = "http://localhost:5000"
+server_url = "http://localhost:5001"
 token_file = "auth_token.txt"
 
 # ******Approach before saving the token, locally on the sysytem*******
@@ -40,8 +40,8 @@ def decoding_token():
         print("✅ Authenticated! JWT token received.")
         print("JWT:", jwt_token)
         # Decode and print email
-        decoded = jwt.decode(jwt_token, options={"verify_signature": False})
-        print("User Email:", decoded.get("email"))
+        # decoded = jwt.decode(jwt_token, options={"verify_signature": False})
+        # print("User Email:", decoded.get("email"))
     else:
         print("❌ Timeout: User not authenticated.")
  
@@ -50,7 +50,6 @@ def decoding_token():
 def authenticated_request():
     if not jwt_token:
         print("No JWT token available. Cannot make authenticated request.")
-        return
 
     headers = {
         "Authorization": f"Bearer {jwt_token}"
@@ -58,6 +57,7 @@ def authenticated_request():
 
     response = requests.get(f"{server_url}/show-email", headers=headers)
     if response.status_code == 200:
+        print(response.json())
         print("Made the successful authenticated request!")
     else:
         print("Access denied:")

@@ -10,9 +10,9 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 const router = Router();
 
 // Middleware to skip the step of authentication each time the user uses the application.
-router.get("/middleware/auth",authMiddleware, (req, res) => {
-  res.redirect('/show-email');
-});
+// router.get("/middleware/auth",authMiddleware, (req, res) => {
+//   res.redirect('/show-email');
+// });
 
 // 1. Register Query
 router.post('/register-query', registerQuery);

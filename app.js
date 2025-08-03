@@ -17,6 +17,8 @@ import cookieParser from "cookie-parser";
 
 import "./Server/config/passport.js";
 import authRoutes from "./Server/routes/auth.js"; 
+import router from './Server/routes/securedEndpoint.js';
+import { authMiddleware } from "./Server/middleware/authMiddleware.js";
 
 // const JWT_SECRET= process.env.JWT_SECRET;
 
@@ -48,7 +50,7 @@ app.get("/", (req, res) => {
   res.send(req.user ? `Hello ${req.user}` : "Not logged in");
 });
 
-const PORT = 5000
+const PORT = 5001
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
