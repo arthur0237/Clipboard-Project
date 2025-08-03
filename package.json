@@ -1,10 +1,11 @@
 {
   "name": "clipboard-project",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch Server/newserver.js"
+    "start": "node --watch app.js"
   },
   "repository": {
     "type": "git",

@@ -1,15 +1,18 @@
- AWS :-
+ ***This folder contains the details regarding various implementations.
+
+
+***[AWS]*** :-
  In AWS everything is an API call.
  pre signed url - GET and PUT 
  -> Need to install - aws sdk s3-client - into the root directory of the project 
  -> need to install - aws sdk presigned url for nodejs 
 
 
-MVC Architecture :-
+****[MVC Architecture]**** :-
 
 Clipboard Project/
 │
-├── server.js              # Entry point (start Express server)
+├── app.js              # Entry point (start Express server)
 ├── package.json
 ├── .env                   # Environment variables (already with you)
 │
@@ -18,15 +21,16 @@ Clipboard Project/
 │   └── passport.js        # Passport.js configuration
 │
 ├── controllers/           # Controllers (route handlers)
-│   └── authController.js  # Google OAuth, login, logout
-│   └── clipboardController.js # Clipboard save/retrieve logic
+│   └── auth ----  # Google OAuth, login, logout
+     Register Query, Poll_auth
+│   └── 
 │
 ├── models/                # Data-related code
-│   └── tokenModel.js      # Logic for saving tokens in Redis
+│   └── **Didn't used model yet.
 │
 ├── routes/                # Routes (API endpoints)
-│   └── authRoutes.js      # Routes for authentication
-│   └── clipboardRoutes.js # Routes for clipboard content
+│   └── auth.js      # Routes for authentication
+│   └── 
 │
 └── middleware/            # Middlewares
     └── authMiddleware.js  # JWT/Session validation

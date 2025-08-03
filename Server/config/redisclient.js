@@ -1,5 +1,6 @@
 // redisClient.js
-const redis = require('redis');
+// const redis = require('redis');
+import redis from "redis";
 const client = redis.createClient({
   socket: {
     port: 6379,     // Redis default port
@@ -10,4 +11,5 @@ const client = redis.createClient({
 client.on('error', (err) => console.error('Redis error:', err));
 client.connect();
 
-module.exports = client;
+// module.exports = client;
+export default client;
