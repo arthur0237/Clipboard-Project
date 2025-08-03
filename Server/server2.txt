@@ -1,3 +1,5 @@
+******Contains the detials related to workflow of sever.*********
+
 
 [Python Script] 
    ↓ (sends query & starts polling)
