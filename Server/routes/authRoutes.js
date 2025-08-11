@@ -1,5 +1,3 @@
-// this file will contain all the authenticated routes
-
 import { Router } from "express";
 import { showEmail } from "../controllers/show-email.js";
 

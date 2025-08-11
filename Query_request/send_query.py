@@ -7,7 +7,7 @@ import webbrowser
 import os
 
 query_id = "1234"  # Any unique string or UUID
-server_url = "http://localhost:5000"
+server_url = "http://localhost:3000"
 token_file = "auth_token.txt"
 
 # ******Approach before saving the token, locally on the sysytem*******
@@ -35,15 +35,16 @@ def token_receiver(query_id):
             break
 
 # function 2 
-def decoding_token():
-    if jwt_token:
-        print("✅ Authenticated! JWT token received.")
-        print("JWT:", jwt_token)
-        # Decode and print email
-        decoded = jwt.decode(jwt_token, options={"verify_signature": False})
-        print("User Email:", decoded.get("email"))
-    else:
-        print("❌ Timeout: User not authenticated.")
+# def decoding_token():
+#     if jwt_token:
+#         print("✅ Authenticated! JWT token received.")
+#         print("JWT:", jwt_token)
+#         # Decode and print email
+#         # able to decode it without key but cannot verify its signature alright
+#         decoded = jwt.decode(jwt_token, options={"verify_signature": False})
+#         print("User Email:", decoded.get("email"))
+#     else:
+#         print("❌ Timeout: User not authenticated.")
  
 
 # function 3
@@ -58,16 +59,16 @@ def authenticated_request():
 
     response = requests.get(f"{server_url}/show-email", headers=headers)
     if response.status_code == 200:
+        print(response.json())
         print("Made the successful authenticated request!")
     else:
-        print("Access denied:")
+        print("Access denied:",response.status_code, response.json(),sep="\n")
 
 # === Main flow ===
 
 if os.path.exists(token_file):
     with open(token_file, "r") as f:
         jwt_token = f.read().strip()
-    decoding_token()
     authenticated_request()
 else:
     # register & open browser

@@ -20,7 +20,11 @@ const token = authHeader && authHeader.split(' ')[1]; // gets the token part aft
   } catch (err) {
     console.log("Decoding error");
     // Invalid token
-    return res.sendStatus(403).json({ error: 'Invalid or expired token' });
+    // this below line code sendStatus sends and then we are again trying to send 
+    // header with chained json which implicitly sends response again
+    // and sending response twice is not allowed
+    // res.sendStatus(403).json({error: "Invalid or expired token"});
+    return res.status(403).json({ error: 'Invalid or expired token' });
   }
 };
 
