@@ -16,7 +16,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import "./Server/config/passport.js";
-import authRoutes from "./Server/routes/auth.js"; 
+import aRoutes from "./Server/routes/auth.js"; 
+import authMiddleware from "./Server/middleware/authMiddleware.js";
+import authRoutes from "./Server/routes/authRoutes.js"; // Authenticated route or routes
+// import apiRoutes from "./Server/routes/api.js";
+
 
 // const JWT_SECRET= process.env.JWT_SECRET;
 
@@ -40,8 +44,20 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(authRoutes);
+app.use(aRoutes); 
 
+app.use(authMiddleware); 
+/* from this point whatever routes will be called,
+ all will be the authenticated routes. 
+Just the inclusion of the line app.use(authMiddleware); 
+- makes all the upcoming routes authenticated. 
+We need not to manually add the middleware to each of the route.*/ 
+
+app.use(authRoutes); 
+/*implemented the '/show-email' ,
+ just to check and debug the auth as well as middleware. */
+
+// app.use(apiRoutes);
 
 // This is the main route  ????
 app.get("/", (req, res) => {
