@@ -1,3 +1,6 @@
 .env
 node_modules
 __pycache__
+auth_token.txt
+pythontest.py
+nodetest.js

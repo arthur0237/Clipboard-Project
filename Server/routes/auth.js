@@ -4,15 +4,14 @@ import { registerQuery } from "../controllers/registerQuery.js";
 import { googleAuth } from "../controllers/auth/_auth_google.js";
 import { googleCallback } from "../controllers/auth/auth_google_callback.js"; 
 import { pollAuth } from "../controllers/poll_auth.js";  
-import { showEmail } from "../controllers/show-email.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
+
 
 const router = Router();
 
 // Middleware to skip the step of authentication each time the user uses the application.
-router.get("/middleware/auth",authMiddleware, (req, res) => {
-  res.redirect('/show-email');
-});
+// router.get("/middleware/auth",authMiddleware, (req, res) => {
+//   res.redirect('/show-email');
+// });
 
 // 1. Register Query
 router.post('/register-query', registerQuery);
@@ -27,9 +26,6 @@ passport.authenticate('google', { failureRedirect: '/' }), googleCallback);
 
 // 4. Polling Endpoint
 router.get('/poll-auth', pollAuth);
-
-// 5. Route to Decode and Display Email
-router.get('/show-email', authMiddleware, showEmail);
 
 
 export default router;

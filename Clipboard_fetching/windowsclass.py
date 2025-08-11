@@ -10,7 +10,7 @@ class WindowsClass(ClipboardClass):
             win32clipboard.CloseClipboard()
             return data
         except Exception as e:
-            print(f"Error cpoying from clipboard: {e}")
+            print(f"Error copying from clipboard: {e}")
             return None   
             
     def pastetoclipboard(self,str):

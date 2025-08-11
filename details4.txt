@@ -1,0 +1,13 @@
+***Implementing --> the flow of clipboard content between server-AWS and user's clipboard. And implementing the end points for uploading , downloading and deleting on AWS-S3.
+
+What will be the flow ??
+
+Flow of data from clipboard to the server and call to the endpoints will be dependent on what shortcut keys user is pressing. 
+
+If user hits Ctrl+C - the content copied to the clipboard will be posted on AWS-s3 via endpoint /post-content.
+
+If user hits Ctrl+V - the content on the AWS-s3 will be pasted to the user's clipboard via endpoint /get-content.
+   Doubt ---> delay ??
+
+The last thing is that with each data an expiry time should be associated with it. We don't want to hold the data unnecessarily over AWS-s3 for an extended time period. User will be notified that for how long the data will be available to him/her for fetching. ----->> expiry will be implemented via endpoint /delete-content.
+
