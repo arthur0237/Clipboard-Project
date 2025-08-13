@@ -36,10 +36,10 @@ export async function generateUploadURL(fileName, fileType) {
 // }
 
 // Example usage
-(async () => {
-  const uploadUrl = await generateUploadURL("details.txt", "text/txt");
-  console.log("Upload URL:", uploadUrl);
+// (async () => {
+//   const uploadUrl = await generateUploadURL("details.txt", "text/txt");
+//   console.log("Upload URL:", uploadUrl);
 
 //   const downloadUrl = await generateDownloadURL("test.png");
 //   console.log("Download URL:", downloadUrl);
-})();
+// })();
