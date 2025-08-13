@@ -6,3 +6,4 @@ __pycache__
 auth_token.txt
 pythontest.py
 nodetest.js
+package-lock.json
