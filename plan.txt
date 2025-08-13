@@ -1,7 +1,7 @@
-1. polling to clipboard - 
-2. polling to server   - paste the response to the clipboard using python
-3. bring AWS or connect all the services of your server to AWS 
-4. middleware - bring to browser 
+1. bring AWS or connect all the services of your server to AWS 
+2. polling to clipboard.
+3. polling to server.
+4. authentication middleware --> bring to browser. 
 
 Part 3.
 
@@ -12,20 +12,17 @@ DELETE
 
 GET file/  - polling to server
            - response will return URL 
-           - in my script I have to download  the file 
+           - in my script I have to download the file from the URL 
            - than I have to read the content and paste it to clipboard
-           - clipboard - polling to server
 
 POST file/ - polling to clipboard 
-           - python 
+           - in python
            - content changes 
            - put that content into file names text.txt
            - in response of /POST file we get pre-signed url for uploading file 
            - post to AWS through pre-signed URL 
 
-DELETE file/
-
-EXPIRY concern will be taken care by AWS S3 functionality - 5 mintues
+[DELETE file/ -- EXPIRY concern will be taken care by AWS S3 functionality - 5 mintues]
 
 [TODO]
 1. How to get presigned url from s3 in nodejs?

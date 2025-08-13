@@ -1,3 +1,7 @@
+# Not moving with this approach.
+# The approach of keyboard shortcuts.
+
+
 import keyboard
 import os
 import time

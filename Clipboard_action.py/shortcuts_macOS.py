@@ -1,3 +1,5 @@
+# Logic for listening the copy and paste in macOS.
+
 from pynput import keyboard
 import os
 
