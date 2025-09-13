@@ -13,7 +13,7 @@ class ClipboardClass(ABC):
         """Paste text to the clipboard."""
         pass
 
-# Move imports to the end to avoid circular import
+# Moved imports to the end to avoid circular import
 if __name__ == "__main__":
     from factory import Factory
     operating_system = platform.system()

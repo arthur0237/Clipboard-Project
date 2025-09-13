@@ -1,4 +1,4 @@
-1. bring AWS or connect all the services of your server to AWS 
+// 1. bring AWS or connect all the services of your server to AWS 
 2. polling to clipboard.
 3. polling to server.
 4. authentication middleware --> bring to browser. 
@@ -10,23 +10,39 @@ GET
 POST 
 DELETE 
 
-GET file/  - polling to server
-           - response will return URL 
-           - in my script I have to download the file from the URL 
-           - than I have to read the content and paste it to clipboard
+GET/file  - polling to server
+          - response will return URL.
+          - in my script I have to download the file from the URL.
+          - than I have to read the content and paste it to clipboard
 
-POST file/ - polling to clipboard 
+POST/file - polling to clipboard 
            - in python
            - content changes 
-           - put that content into file names text.txt
-           - in response of /POST file we get pre-signed url for uploading file 
+           - put that content into file names text.txt --- this is the point where 
+             we must know how to write in a file in -- Python
+           - in response of POST/file we get pre-signed url for uploading file 
            - post to AWS through pre-signed URL 
+           
+        PN   - we will hit the POST-file/ only when the clipboard content changes.
 
 [DELETE file/ -- EXPIRY concern will be taken care by AWS S3 functionality - 5 mintues]
 
 [TODO]
-1. How to get presigned url from s3 in nodejs?
-2. How to read a file in python and wiritng to file?
-3. Which HTTP method to be used for uplaoding/downloading a file from/to url in python?
-4. What things are required to GET and POST for generating pre-signed urls ?
-5. Middleware fix - to be accessed from browser also.   
+1. How to get presigned url from s3 in nodejs? --- done
+
+2. How to read a file in python and writing to file?  --- going to do 
+
+3. Which HTTP method to be used for uplaoding/downloading a file from/to url in python? --- resolved 
+   PUT for upload & GET for download.
+
+4. What things are required to GET and POST for generating pre-signed urls ? --- Not getting ???
+
+
+*********Pending************
+
+5. Middleware fix - to be accessed from browser also.
+
+6. Differentiate between copy and paste action - 
+          so that we know when we need to upload the content of clipboard to S3.
+
+7. Read how the python is downloading the file from the URL.

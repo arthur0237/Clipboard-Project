@@ -1,4 +1,4 @@
-from base1 import ClipboardClass
+from .base1 import ClipboardClass
 import win32clipboard
 
 class WindowsClass(ClipboardClass):

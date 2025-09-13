@@ -17,20 +17,31 @@ import cookieParser from "cookie-parser";
 
 import "./Server/config/passport.js";
 import aRoutes from "./Server/routes/auth.js"; 
-import authMiddleware from "./Server/middleware/authMiddleware.js";
-import authRoutes from "./Server/routes/authRoutes.js"; // Authenticated route or routes
+// import authMiddleware from "./Server/middleware/authMiddleware.js";
+// import authRoutes from "./Server/routes/authRoutes.js"; // Authenticated route or routes
 import apiRoutes from "./Server/routes/api.js";
+import pollingRoutes from "./Server/routes/polling_api.js";
 
-
-// const JWT_SECRET= process.env.JWT_SECRET;
+//**To run the html as well as server on the same port.
+//** Don't forget to dig - that how it's getting done ??
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+app.use(express.json());
+
+// To run the html as well as server on the same port. 
+// code from line 31 to 36
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from "public" folder
+app.use(express.static(path.join(__dirname, "Server/public_start")));
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(express.static('Server'));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -60,6 +71,7 @@ We need not to manually add the middleware to each of the route.*/
 
 
 app.use(apiRoutes);
+app.use(pollingRoutes);
 
 // This is the main route  ????
 app.get("/", (req, res) => {

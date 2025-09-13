@@ -1,3 +1,6 @@
+details1.txt
+
+
 *******Contains the detials related to workflow of sever.********* 
  
  // Now we are going to design the server.

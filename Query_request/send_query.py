@@ -34,8 +34,8 @@ def token_receiver(query_id):
                 f.write(jwt_token)
             break
 
-# function 2 
-def decoding_token():
+# function 2
+def decoding_token():   
     if jwt_token:
         print("✅ Authenticated! JWT token received.")
         print("JWT:", jwt_token)

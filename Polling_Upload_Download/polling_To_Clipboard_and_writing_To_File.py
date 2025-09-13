@@ -37,26 +37,43 @@
 
 
 # This is polling done to clipboard.
+# As well as writing to file which 
+# will be pushed to the S3 is also being done, 
+# which will facilitate the user to paste the same 
+# content to another device which is copied from ohter device.
 
 import platform
-from factory import Factory
+from Clipboard_fetching.factory import Factory
+# . used for relative import
+from .upload_To_Server import upload 
 import time
 
-def fun(s):
-    print(s)
+import os
+file_path = os.path.join(os.path.dirname(__file__), "server.txt")
+
+def write(content):
+    with open(file_path, "w") as f:
+        f.write(content)
 
 def polling():
     t = ""
     operating_system = platform.system()
     ptr = Factory(operating_system)
     while(True):
-        s = ptr.copyfromclipboard()
-        if(t != s):
-            t = s
-            fun(s)
-            #BussinessLogic(t) - 
-            # - logic that will throw the content to the server in case of copy('ctrl+c').
-        # we need to make while loop sleep.
+        content = ptr.copyfromclipboard()
+        if(t != content):
+
+        #    how to know that these part should not be executed 
+        #    ie:- how to know that the content on 
+        #    clipboard is for paste action 
+        #    not for copy action 
+
+            t = content
+            write(content)
+            # here we need to import the function 
+            # which will upload the file to S3
+            upload()
+        # polling after each 4 sec.
         time.sleep(4)
 
 polling()

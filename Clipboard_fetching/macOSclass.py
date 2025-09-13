@@ -1,4 +1,4 @@
-from base1 import ClipboardClass
+from .base1 import ClipboardClass
 try:
     from AppKit import NSPasteboard, NSStringPboardType
 except ImportError:

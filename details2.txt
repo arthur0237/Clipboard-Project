@@ -1,3 +1,6 @@
+details2.txt
+
+
 ******Contains the detials related to workflow of server.*********
 
 

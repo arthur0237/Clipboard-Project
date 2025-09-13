@@ -1,3 +1,6 @@
+details3.txt
+
+
  ***This folder contains the details regarding various implementations.
 
 

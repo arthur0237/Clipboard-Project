@@ -1,3 +1,6 @@
+details4.txt
+
+
 ***Implementing --> the flow of clipboard content between server-AWS and user's clipboard. And implementing the end points for uploading , downloading and deleting on AWS-S3.
 
 What will be the flow ??
