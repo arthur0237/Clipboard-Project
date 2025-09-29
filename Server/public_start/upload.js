@@ -19,6 +19,8 @@ export async function uploadFile(file) {
   }
 }
 
+
+
 // Was to just test the upload 
 
 // Example usage with <input type="file">

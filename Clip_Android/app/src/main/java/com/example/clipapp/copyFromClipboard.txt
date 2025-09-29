@@ -1,0 +1,50 @@
+Flow of your Sync button + clipboard feature
+Step by step:
+
+User taps Sync button in notification
+
+This button is tied to a PendingIntent.
+
+A PendingIntent is like: “store this Intent and run it later when the user presses the button.”
+
+PendingIntent fires a Broadcast
+
+You created an Intent with an action (ACTION_SYNC).
+
+That Intent is wrapped in a PendingIntent.getBroadcast(...).
+
+So when the button is tapped → Android sends a broadcast carrying that Intent.
+
+Your SyncReceiver catches the broadcast
+
+You have a class SyncReceiver that extends BroadcastReceiver.
+
+It has an onReceive() method → this runs automatically whenever it gets the broadcast.
+
+Inside onReceive() → Clipboard logic runs
+
+You grab the clipboard using ClipboardManager.
+
+You check if there’s anything copied.
+
+If yes, you fetch the text and display it (Toast).
+
+🔹 4. Why this setup is useful
+
+Notification buttons cannot directly run heavy code.
+
+Instead, they trigger an Intent → which triggers a BroadcastReceiver (your SyncReceiver).
+
+This keeps things clean and decoupled.
+
+🔑 Summary in plain words
+
+Intent = message.
+
+Broadcast = announcement.
+
+BroadcastReceiver = listener that reacts to the announcement.
+
+PendingIntent = a saved message that Android will send later on your behalf (when button is pressed).
+
+Flow: Button → PendingIntent → Broadcast → SyncReceiver → Clipboard accessed. ✅
