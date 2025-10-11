@@ -14,7 +14,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MyForegroundService extends Service {
     private static final String CHANNEL_ID = "ClipAppChannel";
-    public static final String ACTION_SYNC = "com.example.clipapp.ACTION_SYNC";
+//    public static final String ACTION_SYNC = "com.example.clipapp.ACTION_SYNC";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,7 +28,7 @@ public class MyForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Example action: Sync button
         Intent syncIntent = new Intent(this, ClipboardSyncActivity.class);
-        syncIntent.setAction(ACTION_SYNC);
+         syncIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent syncPendingIntent = PendingIntent.getActivity(
                 this,

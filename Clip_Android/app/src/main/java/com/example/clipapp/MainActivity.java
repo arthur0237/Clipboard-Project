@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +20,24 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_POST_NOTIFICATIONS = 101;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("Ashutosh", "MainActivity is called");
+
+//        // 🔹 DELETE the saved JWT token (for testing)
+//        getSharedPreferences("Auth", MODE_PRIVATE)
+//                .edit()
+//                .remove("jwt")   // remove only the jwt key
+//                .apply();
+//
+//        Toast.makeText(this, "JWT deleted successfully!", Toast.LENGTH_SHORT).show();
+
+//       // Just to display the jwt token.
+        String jwt = getSharedPreferences("Auth", MODE_PRIVATE).getString("jwt", "none");
+        ((TextView) findViewById(R.id.textView)).setText("Your JWT:\n" + jwt);
 
         // Ask for notification permission (Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

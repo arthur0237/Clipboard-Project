@@ -8,13 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ClipboardSyncActivity extends Activity {
-    @Override
-    public void finish() {
-        super.finish();
-        Log.d("ActivityLifecycle", "finish() called for " + this.getClass().getSimpleName());
-    }
+import androidx.appcompat.app.AppCompatActivity;
 
+public class ClipboardSyncActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -35,7 +31,6 @@ public class ClipboardSyncActivity extends Activity {
                 CharSequence copiedText = clipData.getItemAt(0).getText();
 
                 if (copiedText != null) {
-                    // 👉 Do something with it (Toast for now)
                     Toast.makeText(this, "Clipboard: " + copiedText, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -48,7 +43,6 @@ public class ClipboardSyncActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Close the activity immediately after work is done
+        setContentView(R.layout.activity_sync);
     }
 }

@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClipApp">
 
-        <activity android:name=".MainActivity"
+
+        <activity android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,18 +23,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"/>
         <activity android:name=".ClipboardSyncActivity"
             android:theme="@style/Theme.ClipApp"
-            android:exported="true" />
+            android:exported="false" />
 
 
         <service
             android:name=".MyForegroundService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
-
-        <receiver
-            android:name=".SyncReceiver" />
 
     </application>
 </manifest>

@@ -10,7 +10,7 @@ query_id = "1234"  # Any unique string or UUID
 server_url = "http://localhost:5000"
 token_file = "auth_token.txt"
 
-# ******Approach before saving the token, locally on the sysytem*******
+# ******Approach before saving the token, locally on the system*******
 
 # # Step 1: Send query to backend
 # requests.post(f"{server_url}/register-query", json={"queryId": query_id})

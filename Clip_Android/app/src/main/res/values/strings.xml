@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ClipApp</string>
+
+        <string name="web_client_id">"26764968083-pfr6tbetve4kf13e6214pl15jslc49mf.apps.googleusercontent.com"</string>
+
 </resources>
