@@ -3,6 +3,7 @@ import passport from "passport";
 import { registerQuery } from "../controllers/registerQuery.js";
 import { googleAuth } from "../controllers/auth/_auth_google.js";
 import { googleCallback } from "../controllers/auth/auth_google_callback.js"; 
+import { androidAuth } from "../controllers/auth/androidAuth.js";
 import { pollAuth } from "../controllers/poll_auth.js";  
 
 
@@ -13,6 +14,7 @@ const router = Router();
 //   res.redirect('/show-email');
 // });
 
+
 // 1. Register Query
 router.post('/register-query', registerQuery);
 
@@ -22,7 +24,11 @@ router.get('/auth/google', googleAuth);
 
 // 3. OAuth Callback
 router.get('/auth/google/callback',
-passport.authenticate('google', { failureRedirect: '/' }), googleCallback);
+    passport.authenticate('google', { failureRedirect: '/' }), googleCallback);
+    
+    
+// For authenticating the user from the android app
+router.post('/auth/google/android', androidAuth);
 
 // 4. Polling Endpoint
 router.get('/poll-auth', pollAuth);

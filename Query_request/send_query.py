@@ -40,8 +40,8 @@ def decoding_token():
         print("✅ Authenticated! JWT token received.")
         print("JWT:", jwt_token)
         # Decode and print email
-        decoded = jwt.decode(jwt_token, options={"verify_signature": False})
-        print("User Email:", decoded.get("email"))
+        # decoded = jwt.decode(jwt_token, options={"verify_signature": False})
+        # print("User Email:", decoded.get("email"))
     else:
         print("❌ Timeout: User not authenticated.")
  
@@ -56,7 +56,7 @@ def authenticated_request():
         "Authorization": f"Bearer {jwt_token}"
     }
 
-    response = requests.get(f"{server_url}/show-email", headers=headers)
+    response = requests.get(f"{server_url}/ashu", headers=headers)
     if response.status_code == 200:
         print("Made the successful authenticated request!")
     else:
