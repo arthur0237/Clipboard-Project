@@ -26,13 +26,11 @@ router.get('/auth/google', googleAuth);
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }), googleCallback);
     
-    
-// For authenticating the user from the android app
-router.post('/auth/google/android', androidAuth);
-
-// 4. Polling Endpoint
+ // 4. Polling Endpoint
 router.get('/poll-auth', pollAuth);
-
+    
+ // For authenticating the user from the android app
+router.post('/auth/google/android', androidAuth);
 
 export default router;
 

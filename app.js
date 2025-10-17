@@ -70,13 +70,13 @@ We need not to manually add the middleware to each of the route.*/
  just to check and debug the auth as well as middleware. */
 
 
+// This is the main route  ????
+ app.get("/ashu", (req, res) => {
+   res.send(`Hello ${req.user} logged in`);
+ });
 app.use(apiRoutes);
 app.use(pollingRoutes);
 
-// This is the main route  ????
-app.get("/ashu", (req, res) => {
-  res.send(req.user ? `Hello ${req.user}` : "Not logged in");
-});
 
 
 const PORT = 5000
