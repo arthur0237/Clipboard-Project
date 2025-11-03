@@ -5,6 +5,7 @@ import { googleAuth } from "../controllers/auth/_auth_google.js";
 import { googleCallback } from "../controllers/auth/auth_google_callback.js"; 
 import { androidAuth } from "../controllers/auth/androidAuth.js";
 import { pollAuth } from "../controllers/poll_auth.js";  
+import { tokenAskey } from "../controllers/auth/authKey.js";
 
 
 const router = Router();
@@ -25,7 +26,9 @@ router.get('/auth/google', googleAuth);
 // 3. OAuth Callback
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }), googleCallback);
-    
+
+router.get('/api/getkey', tokenAskey);
+
  // 4. Polling Endpoint
 router.get('/poll-auth', pollAuth);
     

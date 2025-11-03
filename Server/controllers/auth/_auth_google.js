@@ -3,7 +3,12 @@ import passport from 'passport';
 export function googleAuth(req, res, next){
 
   // Extracts the queryId from the query string of the request URL.
-  const queryId = req.query.queryId;
+  // const queryId = req.query.queryId;
+  
+  // fetching the uuid from the url to 
+  // use it later in googleCallback function. 
+  // As uuid can't be fetched in callback function.
+  const queryId = req.query.uuid;
 
   // To understand the next line :- 
 // A session is data stored on the server, typically associated with a unique session ID.

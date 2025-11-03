@@ -77,8 +77,6 @@ We need not to manually add the middleware to each of the route.*/
 app.use(apiRoutes);
 app.use(pollingRoutes);
 
-
-
 const PORT = 5000
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
