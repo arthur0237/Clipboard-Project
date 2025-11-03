@@ -51,12 +51,14 @@ import time
 import os
 file_path = os.path.join(os.path.dirname(__file__), "server.txt")
 
+t = ""
+
 def write(content):
     with open(file_path, "w") as f:
         f.write(content)
 
 def polling():
-    t = ""
+    
     operating_system = platform.system()
     ptr = Factory(operating_system)
     while(True):

@@ -45,6 +45,7 @@ def download_using_presigned_url(presigned_url, filename):
 
 def poll_server():
     while True:
+        api = Api()
         try:
             response = requests.get(SERVER_URL)
             data = response.json()
@@ -76,3 +77,22 @@ def poll_server():
 
 if __name__ == "__main__":
     poll_server()
+
+
+'''
+When server has some data python script downloads it
+we have to make changes through python to our clipboard
+which are local changes (by python manipulating our clipbaord)
+these changes are already made we dont have to uplaod to server
+clipboard polling should neglect these changes
+
+We need a filter type of thing which tells this changes are
+from python or from user ?
+
+2 fitler
+
+One from server 
+One from user
+
+ClipMonitor which handles polling
+'''
