@@ -6,7 +6,7 @@ class Api:
 
     def __init__(self, base_url: str, key_instance: Optional[Key] = None):
         self.base_url = base_url.rstrip('/')
-        self.key = key_instance
+        self.key = key_instance or Key()
 
     def _get_jwt(self) -> str:
         # Using Key.getKeyValue() from Key class directly.
@@ -32,3 +32,5 @@ class Api:
 
     def trigger(self, data: Optional[Dict[str, Any]] = None) -> requests.Response:
         return requests.post(f"{self.base_url}/trigger", json=data or {}, headers=self._headers())
+
+

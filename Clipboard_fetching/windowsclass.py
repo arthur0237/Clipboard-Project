@@ -1,5 +1,6 @@
 from .base1 import ClipboardClass
 import win32clipboard
+import Polling_Upload_Download.polling_To_Clipboard_and_writing_To_File as clip_module
 
 class WindowsClass(ClipboardClass):
     def copyfromclipboard(self):
@@ -19,6 +20,8 @@ class WindowsClass(ClipboardClass):
             win32clipboard.OpenClipboard()
             win32clipboard.EmptyClipboard()
             win32clipboard.SetClipboardText(str)
+            # assigning the same value to "t" that is one the clipboard
+            clip_module.t = str
             win32clipboard.CloseClipboard()
             return "Success"
         except Exception as e:

@@ -77,21 +77,31 @@
 #     decoding_token()
 #     authenticated_request()
 
+
 import asyncio
 from key import Key
 from api import Api
 
-base_url = "http://localhost:5000"
+# 1. polling to the server and clipboard --- and than their further proceedings should always start once the keyValue is set or in case of login --- after the user is done with the login.
+
+
+
+class startingScript:
+    def __init__(self):
+        self.key = Key()
+        self.api = None
+        self.base_url = "http://localhost:5000"
+        
+    async def initialize(self):
+        await self.key.initialize()
+        self.api = Api(self.base_url, self.key.getKeyValue())
+
+
+
 
 async def main():
-    key = Key()
-    await key.initialize()  # This triggers login if no token file exists
-    print("Key Value:", key.getKeyValue())
-    api = Api(base_url,key)
-    print("Token:",api._get_jwt())
-    checking = api.check_update()
-    print("status_code: ", checking.status_code)
-    print("response text: ", checking.text)
+    script = startingScript()
+    await script.initialize()
 
 if __name__ == "__main__":
     asyncio.run(main())
